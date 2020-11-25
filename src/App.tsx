@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Board } from "./components/Board/Board";
+import { GameProvider } from "../src/context/Game";
+import Status from "./components/Status/Status";
+import Header from "./components/Header/Header";
+import Reset from "./components/Reset/Reset";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <GameProvider>
+        <Header>
+          <h1
+            id="headerTitle"
+            style={{
+              flex: "1",
+            }}
+          >
+            Connect Four
+          </h1>
+          <Reset />
+        </Header>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Status />
+          <Board />
+        </div>
+      </GameProvider>
     </div>
   );
 }
