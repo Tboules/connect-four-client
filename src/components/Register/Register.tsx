@@ -70,7 +70,7 @@ export const StyledFormWrap = styled.div`
 `;
 
 const Register = () => {
-  const { userInfo, setUserInfo, setCurrentUserId, setUserIn } = useUser();
+  const { userInfo, setUserInfo, setUserIn } = useUser();
   let history = useHistory();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -78,7 +78,10 @@ const Register = () => {
     if (userInfo.userName !== "" && userInfo.passWord !== "") {
       register(userInfo).then((id) => {
         if (id) {
-          setCurrentUserId(id);
+          setUserInfo({
+            ...userInfo,
+            currentUserId: id,
+          });
           setUserIn(true);
           history.push("/join-or-create");
         } else {

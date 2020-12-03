@@ -6,8 +6,9 @@ type UserContextValue = {
   userInfo: {
     userName: string;
     passWord: string;
-    playerColor: string;
-    gameInstance: number;
+    playerColor?: string;
+    gameInstance?: string;
+    currentUserId?: string | null;
   };
   setUserInfo: (userInfo: UserContextValue["userInfo"]) => void;
   currentUserId: string | null;
@@ -24,14 +25,12 @@ export const UserProvider: React.FC = ({ children }) => {
     userName: "",
     passWord: "",
     playerColor: "white",
-    gameInstance: 0,
+    gameInstance: "0",
   });
   const [currentUserId, setCurrentUserId] = useState<
     UserContextValue["currentUserId"]
   >(null);
   const [gameId, setGameId] = useState<UserContextValue["gameId"]>("");
-
-  console.log(userInfo);
 
   return (
     <UserContext.Provider

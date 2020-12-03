@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import { checkGame, storeGameId } from "../../API";
+import { useHistory } from "react-router-dom";
 const cryptoRandomString = require("crypto-random-string");
 
 const StyledPageWrap = styled.div`
@@ -53,31 +55,77 @@ const StyledBox = styled.div`
     border: none;
     border-radius: 4px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    padding-left: 10px;
     background-color: whitesmoke;
+    text-align: center;
+    letter-spacing: 3px;
+    font-size: 1rem;
   }
 `;
 
 const JoinOrCreate = () => {
-  const { gameId, setGameId } = useUser();
+  const { gameId, setGameId, userInfo, setUserInfo } = useUser();
+  const [joinInput, setJoinInput] = useState<string>("");
+  let history = useHistory();
 
   const handleGenerate = () => {
-    setGameId(cryptoRandomString({ length: 5, type: "distinguishable" }));
+    const gameNumber: string = cryptoRandomString({
+      length: 5,
+      type: "distinguishable",
+    });
+    setGameId(gameNumber);
+    setUserInfo({
+      ...userInfo,
+      gameInstance: gameNumber,
+      playerColor: "yellow",
+    });
   };
 
+  const handleJoin = async () => {
+    const info = await checkGame(joinInput);
+    if (info.number === 0) {
+      alert("This game does not exist, check your game ID");
+    } else if (info.number === 1) {
+      setGameId(joinInput);
+      setUserInfo({
+        ...userInfo,
+        gameInstance: joinInput,
+        playerColor: "red",
+      });
+      history.push(`/${joinInput}`);
+    } else {
+      setGameId(joinInput);
+      setUserInfo({
+        ...userInfo,
+        gameInstance: joinInput,
+        playerColor: "spectator",
+      });
+      history.push(`/${joinInput}`);
+    }
+  };
+
+  useEffect(() => {
+    storeGameId(userInfo);
+  }, [userInfo]);
+
+  console.log(userInfo);
   return (
     <StyledPageWrap>
       <StyledBox>
         <h2>Join Game!</h2>
         <div>
-          <input type="text" />
+          <input
+            value={joinInput}
+            maxLength={5}
+            type="text"
+            onChange={(e) => setJoinInput(e.target.value.toUpperCase())}
+          />
         </div>
-        <button>Join</button>
+        <button onClick={handleJoin}>Join</button>
       </StyledBox>
       <StyledBox>
         <h2>Create a Game!</h2>
         <div>
-          <h3>{gameId ? gameId : "Generate an ID"}</h3>
+          <h3>{gameId && !joinInput ? gameId : "Generate an ID"}</h3>
         </div>
         {!gameId ? (
           <button onClick={handleGenerate}>Generate ID</button>

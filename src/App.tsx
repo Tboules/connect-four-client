@@ -15,7 +15,6 @@ import JoinOrCreate from "./components/JoinOrCreate";
 
 function App() {
   const { userIn, gameId } = useUser();
-  console.log(userIn);
   return (
     <div className="App">
       <Router>

@@ -5,7 +5,7 @@ import { signIn } from "../../API";
 import { useHistory } from "react-router-dom";
 
 const SignIn = () => {
-  const { userInfo, setUserInfo, setCurrentUserId, setUserIn } = useUser();
+  const { userInfo, setUserInfo, setUserIn } = useUser();
   let history = useHistory();
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -13,7 +13,10 @@ const SignIn = () => {
     if (userInfo.userName !== "" && userInfo.passWord !== "") {
       const id = await signIn(userInfo);
       if (id) {
-        setCurrentUserId(id);
+        setUserInfo({
+          ...userInfo,
+          currentUserId: id,
+        });
         setUserIn(true);
         history.push("/join-or-create");
       } else {
