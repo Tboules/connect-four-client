@@ -1,43 +1,45 @@
 import React from "react";
-import { Board } from "./components/Board/Board";
-import { GameProvider } from "../src/context/Game";
-import { useUser } from "./context/UserContext";
-import Status from "./components/Status/Status";
 import Header from "./components/Header/Header";
-import Reset from "./components/Reset/Reset";
 import Register from "./components/Register/Register";
+import GameComp from "./components/GameComp/GameComp";
+import Nav from "./components/Header/Nav";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { useUser } from "./context/UserContext";
+import Login from "./components/Login/SignIn";
+import JoinOrCreate from "./components/JoinOrCreate";
 
 function App() {
-  const { userIn } = useUser();
+  const { userIn, gameId } = useUser();
+  console.log(userIn);
   return (
     <div className="App">
-      {!userIn ? (
-        <Register />
-      ) : (
-        <GameProvider>
-          <Header>
-            <h1
-              id="headerTitle"
-              style={{
-                flex: "1",
-              }}
-            >
-              Connect Four
-            </h1>
-            <Reset />
-          </Header>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Status />
-            <Board />
-          </div>
-        </GameProvider>
-      )}
+      <Router>
+        <Header>
+          <h1 style={{ flex: "1", color: "#1750e1", fontSize: "2.3rem" }}>
+            Connect 4
+          </h1>
+          <Nav />
+        </Header>
+        <Switch>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route exact path="/join-or-create">
+            {userIn ? <JoinOrCreate /> : <Redirect to="/" />}
+          </Route>
+          <Route exact path={`/${gameId}`}>
+            {userIn && gameId ? <GameComp /> : <Redirect to="/sign-in" />}
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
