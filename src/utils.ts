@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useUser } from "./context/UserContext";
 
 export function useLocalStorageManagement() {
   let location = useLocation();
+  const { setGameId, setUserInfo } = useUser();
 
   useEffect(() => {
     const { pathname } = location;
     if (pathname === "/sign-in" || pathname === "/register") {
-      window.localStorage.setItem("userIn", "false");
-      window.localStorage.setItem("gameId", "");
+      window.localStorage.clear();
+      setUserInfo({
+        userName: "",
+        passWord: "",
+        gameInstance: "0",
+        playerColor: "white",
+        currentUserId: null,
+      });
     }
     if (pathname === "/join-or-create") {
-      window.localStorage.setItem("gameId", "");
+      setGameId("");
     }
-  }, [location]);
+  }, [location, setGameId, setUserInfo]);
 }
 
 type directionCheckFn = (

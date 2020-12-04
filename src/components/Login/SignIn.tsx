@@ -26,7 +26,7 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    //@ts-ignore
+    // @ts-ignore
     window.localStorage.setItem("userIn", userIn);
   }, [userIn]);
 
@@ -40,9 +40,13 @@ const SignIn = () => {
             <input
               type="text"
               name="userName"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setUserInfo({ ...userInfo, userName: e.target.value })
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setUserInfo({
+                  ...userInfo,
+                  userName: e.target.value,
+                });
+                window.localStorage.setItem("userName", e.target.value);
+              }}
             />
           </div>
           <div className="userPass">
@@ -50,9 +54,13 @@ const SignIn = () => {
             <input
               type="text"
               name="passWord"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setUserInfo({ ...userInfo, passWord: e.target.value })
-              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setUserInfo({
+                  ...userInfo,
+                  passWord: e.target.value,
+                });
+                window.localStorage.setItem("passWord", e.target.value);
+              }}
             />
           </div>
           <button>Come On In</button>

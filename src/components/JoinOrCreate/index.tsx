@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import { checkGame, storeGameId } from "../../API";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const cryptoRandomString = require("crypto-random-string");
 
 const StyledPageWrap = styled.div`
@@ -63,7 +63,7 @@ const StyledBox = styled.div`
 `;
 
 const JoinOrCreate = () => {
-  const { gameId, setGameId, userInfo, setUserInfo } = useUser();
+  const { gameId, setGameId, userInfo, setUserInfo, setUserIn } = useUser();
   const [joinInput, setJoinInput] = useState<string>("");
   let history = useHistory();
 
@@ -104,12 +104,16 @@ const JoinOrCreate = () => {
   };
 
   useEffect(() => {
-    storeGameId(userInfo);
-  }, [userInfo]);
+    if (userInfo.userName) {
+      storeGameId(userInfo);
+    } else if (userInfo.userName === "") {
+      setUserIn("false");
+    }
+  }, [setUserIn, userInfo]);
 
   useEffect(() => {
     window.localStorage.setItem("gameId", gameId);
-  });
+  }, [gameId]);
 
   console.log(userInfo);
   return (
