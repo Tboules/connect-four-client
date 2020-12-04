@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUser } from "../../context/UserContext";
 import { StyledFormWrap } from "../Register/Register";
 import { signIn } from "../../API";
 import { useHistory } from "react-router-dom";
 
 const SignIn = () => {
-  const { userInfo, setUserInfo, setUserIn } = useUser();
+  const { userInfo, setUserInfo, setUserIn, userIn } = useUser();
   let history = useHistory();
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -17,13 +17,18 @@ const SignIn = () => {
           ...userInfo,
           currentUserId: id,
         });
-        setUserIn(true);
+        setUserIn("true");
         history.push("/join-or-create");
       } else {
         alert("The Username or Password that you have entered is incorrect.");
       }
     }
   };
+
+  useEffect(() => {
+    //@ts-ignore
+    window.localStorage.setItem("userIn", userIn);
+  }, [userIn]);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import { register } from "../../API";
@@ -70,7 +70,7 @@ export const StyledFormWrap = styled.div`
 `;
 
 const Register = () => {
-  const { userInfo, setUserInfo, setUserIn } = useUser();
+  const { userInfo, setUserInfo, setUserIn, userIn } = useUser();
   let history = useHistory();
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -82,7 +82,7 @@ const Register = () => {
             ...userInfo,
             currentUserId: id,
           });
-          setUserIn(true);
+          setUserIn("true");
           history.push("/join-or-create");
         } else {
           alert("That user already exists");
@@ -91,6 +91,11 @@ const Register = () => {
     }
     e.target.reset();
   };
+
+  useEffect(() => {
+    //@ts-ignore
+    window.localStorage.setItem("userIn", userIn);
+  }, [userIn]);
 
   return (
     <div>

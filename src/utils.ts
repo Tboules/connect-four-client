@@ -1,3 +1,21 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+export function useLocalStorageManagement() {
+  let location = useLocation();
+
+  useEffect(() => {
+    const { pathname } = location;
+    if (pathname === "/sign-in" || pathname === "/register") {
+      window.localStorage.setItem("userIn", "false");
+      window.localStorage.setItem("gameId", "");
+    }
+    if (pathname === "/join-or-create") {
+      window.localStorage.setItem("gameId", "");
+    }
+  }, [location]);
+}
+
 type directionCheckFn = (
   twoD: string[][],
   tile: Tile,

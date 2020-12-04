@@ -26,7 +26,7 @@ export const useSocketChat = (roomId: any) => {
     return () => {
       socketRef.current.disconnect();
     };
-  }, []);
+  }, [roomId]);
 
   const sendMessage = (messageBody: string) => {
     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {

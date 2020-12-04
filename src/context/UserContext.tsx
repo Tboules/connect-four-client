@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 type UserContextValue = {
-  userIn: boolean;
+  userIn: string;
   setUserIn: (user: UserContextValue["userIn"]) => void;
   userInfo: {
     userName: string;
@@ -20,7 +20,9 @@ type UserContextValue = {
 const UserContext = createContext<UserContextValue | null>(null);
 
 export const UserProvider: React.FC = ({ children }) => {
-  const [userIn, setUserIn] = useState<UserContextValue["userIn"]>(false);
+  const [userIn, setUserIn] = useState<UserContextValue["userIn"]>(
+    () => window.localStorage.getItem("userIn") || "false"
+  );
   const [userInfo, setUserInfo] = useState<UserContextValue["userInfo"]>({
     userName: "",
     passWord: "",
@@ -30,7 +32,9 @@ export const UserProvider: React.FC = ({ children }) => {
   const [currentUserId, setCurrentUserId] = useState<
     UserContextValue["currentUserId"]
   >(null);
-  const [gameId, setGameId] = useState<UserContextValue["gameId"]>("");
+  const [gameId, setGameId] = useState<UserContextValue["gameId"]>(
+    () => window.localStorage.getItem("gameId") || ""
+  );
 
   return (
     <UserContext.Provider
