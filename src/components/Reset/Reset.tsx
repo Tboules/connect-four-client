@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useGame } from "../../context/Game";
 import { boardArr } from "../../utils";
+import { useSocketChat } from "../Messenger/useSocket";
+import { updateGame } from "../../API";
 
 const StyledResetButton = styled.button`
   align-self: center;
@@ -21,13 +23,19 @@ const StyledResetButton = styled.button`
 `;
 
 const Reset = () => {
-  const { setBoard, setGameOver, setTurn, setCurrentTile } = useGame();
+  const { setGameOver, setTurn, setCurrentTile, currentTile } = useGame();
+  const room = window.localStorage.getItem("gameId");
+  const { sendBoard } = useSocketChat(room);
 
   const handleReset = () => {
     setGameOver(false);
     setTurn("yellow");
     setCurrentTile([0, -1]);
-    setBoard(boardArr);
+    sendBoard(boardArr, [0, -1]);
+    updateGame({
+      gameInstance: room,
+      gameBoard: boardArr,
+    });
   };
 
   return (

@@ -1,5 +1,14 @@
 import axios from "axios";
 
+export type gameType = {
+  gameInstance: string;
+  messages?: {
+    name: string;
+    message: string;
+  }[];
+  gameBoard: string[][];
+};
+
 export const register = async (user: any) => {
   try {
     const registeredUser = await axios.post(
@@ -46,6 +55,41 @@ export const checkGame = async (gameId: string) => {
       { gameInstance: gameId }
     );
     return gameInfo.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const createGame = async (game: gameType) => {
+  try {
+    const newGame = await axios.post(
+      "http://localhost:3001/gameApi/newGame",
+      game
+    );
+    return newGame;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updateGame = async (gameInfo: any) => {
+  try {
+    const update = await axios.patch(
+      "http://localhost:3001/gameApi/updateGame",
+      gameInfo
+    );
+    return update;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getGame = async (id: any) => {
+  try {
+    const findGame = await axios.post("http://localhost:3001/gameApi/getGame", {
+      gameInstance: id,
+    });
+    return findGame;
   } catch (err) {
     console.error(err);
   }

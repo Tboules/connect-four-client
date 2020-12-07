@@ -25,7 +25,7 @@ export const UserProvider: React.FC = ({ children }) => {
   );
   const [userInfo, setUserInfo] = useState<UserContextValue["userInfo"]>({
     userName: window.localStorage.getItem("userName") || "",
-    passWord: window.localStorage.getItem("passWord") || "",
+    passWord: "",
     playerColor: "white",
     gameInstance: "0",
   });
@@ -35,8 +35,6 @@ export const UserProvider: React.FC = ({ children }) => {
   const [gameId, setGameId] = useState<UserContextValue["gameId"]>(
     () => window.localStorage.getItem("gameId") || ""
   );
-
-  console.log(userInfo);
 
   return (
     <UserContext.Provider

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
@@ -25,17 +25,34 @@ const StyledNav = styled.nav`
 `;
 
 const Nav = () => {
+  let location = useLocation();
+
   return (
     <div>
       <StyledNav>
-        <ul>
-          <li>
-            <Link to="/sign-in">Sign In</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-        </ul>
+        {location.pathname === "/sign-in" ||
+        location.pathname === "/register" ||
+        location.pathname === "/" ? (
+          <ul>
+            <li>
+              <Link to="/sign-in">Sign In</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li>
+              {location.pathname !== "/join-or-create" && (
+                <Link to="/join-or-create">Leave Game</Link>
+              )}
+            </li>
+            <li>
+              <Link to="/sign-in">Log Out</Link>
+            </li>
+          </ul>
+        )}
       </StyledNav>
     </div>
   );

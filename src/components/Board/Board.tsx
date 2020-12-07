@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useGame } from "../../context/Game";
 import { FillButton } from "../FillButton/FillButton";
 import produce from "immer";
+import { useSocketChat } from "../Messenger/useSocket";
+import { getGame } from "../../API";
+import { turnCheck } from "../../utils";
 
 const COLUMNS = [0, 1, 2, 3, 4, 5, 6];
 
@@ -41,37 +44,51 @@ const Tile = styled.div`
   }
 `;
 
-// interface BoardProps {}
-
 export const Board = () => {
-  const { board, turn, setBoard, setCurrentTile, gameOver } = useGame();
+  const { turn, setCurrentTile, gameOver, currentTile } = useGame();
+  const room = window.localStorage.getItem("gameId");
+  const { socketBoard, sendBoard } = useSocketChat(room);
+
+  useEffect(() => {
+    const grabGame = async () => {
+      const game = await getGame(room);
+      sendBoard(game?.data[0].gameBoard, currentTile);
+      // setTurn(turnCheck(game?.data[0].gameBoard))
+    };
+    grabGame();
+  }, []);
 
   const handleTurn = (column: number) => {
     if (gameOver) {
       return;
     }
-    const newBoard = produce(board, (draftBoard) => {
+    let newTile: number[] = [];
+    const newBoard = produce(socketBoard.body.board, (draftBoard) => {
       for (let i = draftBoard.length - 1; i >= 0; i--) {
         if (draftBoard[i][column] === "white") {
           draftBoard[i][column] = turn;
           setCurrentTile([i, column]);
+          newTile = [i, column];
           break;
         }
       }
     });
-    setBoard(newBoard);
+    sendBoard(newBoard, newTile);
   };
 
   const renderTile = (column: number, row: number) => {
+    const boardRender = () => {
+      return socketBoard.body.board[column][row];
+    };
     return (
       <Tile
-        color={board[column][row]}
+        color={boardRender()}
         onClick={() => handleTurn(row)}
         style={{
-          color: `${board[column][row]}`,
+          color: `${boardRender()}`,
         }}
       >
-        {board[column][row]}
+        {boardRender()}
       </Tile>
     );
   };

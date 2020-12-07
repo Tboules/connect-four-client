@@ -114,11 +114,17 @@ const bottomLeft = ([x, y]: Tile) => [x + 1, y - 1];
 const topLeft = ([x, y]: Tile) => [x - 1, y - 1];
 const bottomRight = ([x, y]: Tile) => [x + 1, y + 1];
 
-export function winCheck(twoD: string[][], tile: Tile) {
+export function winCheck(board: string[][], tile: Tile) {
+  if (
+    board[tile[0]][tile[1]] !== "red" &&
+    board[tile[0]][tile[1]] !== "yellow"
+  ) {
+    return false;
+  }
   return (
-    directionalCheck(twoD, tile, right, left) ||
-    directionalCheck(twoD, tile, top, bottom) ||
-    directionalCheck(twoD, tile, topRight, bottomLeft) ||
-    directionalCheck(twoD, tile, topLeft, bottomRight)
+    directionalCheck(board, tile, right, left) ||
+    directionalCheck(board, tile, top, bottom) ||
+    directionalCheck(board, tile, topRight, bottomLeft) ||
+    directionalCheck(board, tile, topLeft, bottomRight)
   );
 }

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useSocketChat } from "../components/Messenger/useSocket";
 import { boardArr, turnCheck, winCheck } from "../utils";
 
 type GameContextValue = {
-  board: string[][];
+  // board: string[][];
   turn: string;
-  setBoard: (board: GameContextValue["board"]) => void;
+  // setBoard: (board: GameContextValue["board"]) => void;
   setTurn: (turn: GameContextValue["turn"]) => void;
   gameOver: boolean;
   setGameOver: (gameOver: GameContextValue["gameOver"]) => void;
@@ -17,7 +18,7 @@ type GameContextValue = {
 const GameContext = React.createContext<GameContextValue | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [board, setBoard] = useState<GameContextValue["board"]>(boardArr);
+  // const [board, setBoard] = useState<GameContextValue["board"]>(boardArr);
   const [turn, setTurn] = useState<GameContextValue["turn"]>("yellow");
   const [gameOver, setGameOver] = useState<GameContextValue["gameOver"]>(false);
   const [currentTile, setCurrentTile] = useState<
@@ -27,23 +28,29 @@ export const GameProvider: React.FC = ({ children }) => {
     `It's ${turn}'s turn!`
   );
 
+  const room = window.localStorage.getItem("gameId");
+  const { socketBoard, sendBoard } = useSocketChat(room);
+
+  const { board, tile } = socketBoard.body;
+
   useEffect(() => {
-    if (winCheck(board, currentTile)) {
+    if (winCheck(board, tile)) {
       setGameOver(true);
     }
+
     setTurn(turnCheck(board));
     setStatus(`It's ${turn}'s turn!`);
+    console.log(board);
+    // sendBoard(board);
     if (gameOver) {
-      setStatus(`${board[currentTile[0]][currentTile[1]]} wins!`);
+      setStatus(`${board[tile[0]][tile[1]]} wins!`);
     }
-  }, [board, currentTile, turn, gameOver]);
+  }, [board, gameOver, tile, turn]);
 
   return (
     <GameContext.Provider
       value={{
-        board,
         turn,
-        setBoard,
         setTurn,
         gameOver,
         setGameOver,

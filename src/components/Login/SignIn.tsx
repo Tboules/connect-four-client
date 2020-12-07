@@ -59,7 +59,6 @@ const SignIn = () => {
                   ...userInfo,
                   passWord: e.target.value,
                 });
-                window.localStorage.setItem("passWord", e.target.value);
               }}
             />
           </div>
