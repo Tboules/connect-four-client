@@ -37,13 +37,16 @@ export const GameProvider: React.FC = ({ children }) => {
     if (winCheck(board, tile)) {
       setGameOver(true);
     }
+    if (board[tile[0]][tile[1]] === undefined) {
+      setGameOver(false);
+    }
 
-    setTurn(turnCheck(board));
-    setStatus(`It's ${turn}'s turn!`);
-    console.log(board);
     // sendBoard(board);
-    if (gameOver) {
+    if (gameOver && board[tile[0]][tile[1]] !== undefined) {
       setStatus(`${board[tile[0]][tile[1]]} wins!`);
+    } else {
+      setTurn(turnCheck(board));
+      setStatus(`It's ${turn}'s turn!`);
     }
   }, [board, gameOver, tile, turn]);
 

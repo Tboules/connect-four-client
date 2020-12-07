@@ -52,17 +52,17 @@ export const Board = () => {
   useEffect(() => {
     const grabGame = async () => {
       const game = await getGame(room);
-      sendBoard(game?.data[0].gameBoard, currentTile);
-      // setTurn(turnCheck(game?.data[0].gameBoard))
+      sendBoard(game?.data[0].gameBoard, game?.data[0].lastTile);
     };
     grabGame();
   }, []);
 
   const handleTurn = (column: number) => {
+    console.log(gameOver);
     if (gameOver) {
       return;
     }
-    let newTile: number[] = [];
+    let newTile: number[] = [0, -1];
     const newBoard = produce(socketBoard.body.board, (draftBoard) => {
       for (let i = draftBoard.length - 1; i >= 0; i--) {
         if (draftBoard[i][column] === "white") {
@@ -73,6 +73,7 @@ export const Board = () => {
         }
       }
     });
+    console.log(newTile);
     sendBoard(newBoard, newTile);
   };
 

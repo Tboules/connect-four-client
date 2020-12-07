@@ -78,6 +78,7 @@ export const useSocketChat = (roomId: any) => {
     updateGame({
       gameInstance: roomId,
       gameBoard: boardBody,
+      lastTile: curTile,
     });
   };
 
