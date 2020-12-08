@@ -11,10 +11,10 @@ const ButtCont = styled.div`
 `;
 
 const Butt = styled.button<{ turnColor: string }>`
-  width: 80px;
+  width: 70px;
   border: none;
   outline: none;
-  height: 80px;
+  height: 70px;
   cursor: pointer;
   box-sizing: border-box;
   padding-bottom: 10px;

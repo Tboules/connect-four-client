@@ -18,7 +18,7 @@ const StyledMessengerLayout = styled.div`
   right: 0;
   width: 20%;
   top: 90px;
-  background-color: whitesmoke;
+  background-color: #f8f8f8;
 `;
 
 const StyledDisplayWindow = styled.div`
@@ -44,6 +44,13 @@ const StyledInput = styled.div`
     height: 50px;
     width: 70%;
     background-color: #e8e8e8;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 10px;
+  }
+
+  input:focus {
+    border: 1px solid lightblue;
   }
 
   button {
@@ -88,7 +95,6 @@ const Messenger = () => {
     });
     e.target.reset();
   };
-  console.log(prevMessages);
 
   return (
     <StyledMessengerLayout>
@@ -110,7 +116,7 @@ const Messenger = () => {
           </div>
         </StyledDisplayWindow>
         <StyledInput>
-          <input type="text" name="message" />
+          <input type="text" name="message" autoComplete="off" />
           <button>send</button>
         </StyledInput>
       </form>

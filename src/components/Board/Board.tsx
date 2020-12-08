@@ -9,26 +9,28 @@ import { getGame } from "../../API";
 const COLUMNS = [0, 1, 2, 3, 4, 5, 6];
 
 const BoardWrap = styled.div`
+  margin-top: 100px;
   display: flex;
   justify-content: center;
   flex: 1;
-  margin-bottom: 100px;
-  border-radius: 4px;
+
+  border-radius: 8px;
 `;
 const Column = styled.div`
-  width: 110px;
+  width: 100px;
   padding: 0;
   margin: 0;
+  background-color: #1750e1;
 `;
 const Tile = styled.div`
-  background-color: #1750e1;
-  width: 110px;
-  height: 100px;
+  /* background-color: #1750e1; */
+  width: 100px;
+  height: 95px;
   padding: 0;
   margin: 0;
   position: relative;
   text-align: center;
-  line-height: 120px;
+  line-height: 90px;
   cursor: pointer;
 
   :after {
@@ -38,13 +40,13 @@ const Tile = styled.div`
     left: 15px;
     background-color: ${(props) => props.color};
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
 `;
 
 export const Board = () => {
-  const { turn, setCurrentTile, gameOver, currentTile } = useGame();
+  const { turn, setCurrentTile, gameOver } = useGame();
   const room = window.localStorage.getItem("gameId");
   const { socketBoard, sendBoard } = useSocketChat(room);
 
@@ -95,15 +97,17 @@ export const Board = () => {
     <BoardWrap>
       {COLUMNS.map((column) => {
         return (
-          <Column key={column}>
+          <div className="columnWrap">
             <FillButton click={() => handleTurn(column)} />
-            {renderTile(0, column)}
-            {renderTile(1, column)}
-            {renderTile(2, column)}
-            {renderTile(3, column)}
-            {renderTile(4, column)}
-            {renderTile(5, column)}
-          </Column>
+            <Column className="column" key={column}>
+              {renderTile(0, column)}
+              {renderTile(1, column)}
+              {renderTile(2, column)}
+              {renderTile(3, column)}
+              {renderTile(4, column)}
+              {renderTile(5, column)}
+            </Column>
+          </div>
         );
       })}
     </BoardWrap>

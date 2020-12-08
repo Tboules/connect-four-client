@@ -15,6 +15,7 @@ const StyledResetButton = styled.button`
   border-radius: 12px;
   outline: none;
   font-size: 1rem;
+  margin: auto;
 
   :hover {
     background-color: #1750e1;

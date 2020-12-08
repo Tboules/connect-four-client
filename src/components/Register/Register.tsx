@@ -10,7 +10,7 @@ export const StyledFormWrap = styled.div`
   height: 400px;
   margin: auto;
   background-color: #6ec2dd;
-  margin-top: 15vh;
+  margin-top: 25vh;
   border-radius: 4px;
   padding-top: 20px;
   box-sizing: border-box;

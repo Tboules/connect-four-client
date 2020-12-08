@@ -3,7 +3,13 @@ import { useGame } from "../../context/Game";
 import styled from "styled-components";
 
 const StyledStatusWrap = styled.div`
-  padding: 40px;
+  width: 100%;
+
+  display: block;
+
+  h2 {
+    text-align: center;
+  }
 `;
 
 const Status = () => {
