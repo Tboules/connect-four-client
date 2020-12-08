@@ -43,10 +43,6 @@ export const useSocketChat = (roomId: any) => {
       setSocketBoard(incomingBoard);
     });
 
-    // socketRef.current.on("joinEvent", (info: any) => {
-    //   setJoinInfo(info);
-    // });
-
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message: messageType) => {
       const incomingMessage = {
         ...message,
@@ -60,10 +56,17 @@ export const useSocketChat = (roomId: any) => {
     };
   }, [roomId]);
 
-  const sendMessage = (messageBody: string) => {
+  const sendMessage = (messageObj: { user: string; message: any }) => {
     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
-      body: messageBody,
+      body: {
+        user: messageObj.user,
+        message: messageObj.message,
+      },
       senderId: socketRef.current.id,
+    });
+    updateGame({
+      gameInstance: roomId,
+      messages: [messageObj],
     });
   };
 
@@ -82,18 +85,10 @@ export const useSocketChat = (roomId: any) => {
     });
   };
 
-  // const sendJoinInfo = (data: any) => {
-  //   socketRef.current.emit("joinEvent", {
-  //     body: data,
-  //   });
-  // };
-
   return {
     messages,
     sendMessage,
     socketBoard,
     sendBoard,
-    // sendJoinInfo,
-    // joinInfo,
   };
 };

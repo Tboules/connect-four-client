@@ -5,7 +5,6 @@ import { FillButton } from "../FillButton/FillButton";
 import produce from "immer";
 import { useSocketChat } from "../Messenger/useSocket";
 import { getGame } from "../../API";
-import { turnCheck } from "../../utils";
 
 const COLUMNS = [0, 1, 2, 3, 4, 5, 6];
 
@@ -58,7 +57,6 @@ export const Board = () => {
   }, []);
 
   const handleTurn = (column: number) => {
-    console.log(gameOver);
     if (gameOver) {
       return;
     }
@@ -73,7 +71,6 @@ export const Board = () => {
         }
       }
     });
-    console.log(newTile);
     sendBoard(newBoard, newTile);
   };
 

@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { checkGame, storeGameId, deleteGame } from "../../API";
+import { useUser } from "../../context/UserContext";
 
 const StyledNav = styled.nav`
   ul {
@@ -25,7 +27,22 @@ const StyledNav = styled.nav`
 `;
 
 const Nav = () => {
+  const { userInfo } = useUser();
   let location = useLocation();
+  const room: any = window.localStorage.getItem("gameId");
+
+  const handleLeave = async () => {
+    await storeGameId({
+      currentUserId: userInfo.currentUserId,
+      gameInstance: "",
+      playerColor: "",
+    });
+
+    const gameInfo = await checkGame(room);
+    if (!gameInfo.number) {
+      deleteGame(room);
+    }
+  };
 
   return (
     <div>
@@ -45,11 +62,15 @@ const Nav = () => {
           <ul>
             <li>
               {location.pathname !== "/join-or-create" && (
-                <Link to="/join-or-create">Leave Game</Link>
+                <Link to="/join-or-create" onClick={handleLeave}>
+                  Leave Game
+                </Link>
               )}
             </li>
             <li>
-              <Link to="/sign-in">Log Out</Link>
+              <Link to="/sign-in" onClick={handleLeave}>
+                Log Out
+              </Link>
             </li>
           </ul>
         )}

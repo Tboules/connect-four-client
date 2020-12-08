@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import { Link } from "react-router-dom";
-import { checkGame, getGame, storeGameId } from "../../API";
+import { checkGame, storeGameId } from "../../API";
 import { useHistory } from "react-router-dom";
 import { boardArr } from "../../utils";
 import { createGame } from "../../API";
-import { useSocketChat } from "../Messenger/useSocket";
+
 const cryptoRandomString = require("crypto-random-string");
 
 const StyledPageWrap = styled.div`
@@ -68,7 +68,6 @@ const StyledBox = styled.div`
 const JoinOrCreate = () => {
   const { gameId, setGameId, userInfo, setUserInfo, setUserIn } = useUser();
   const [joinInput, setJoinInput] = useState<string>("");
-  const { sendBoard } = useSocketChat(joinInput);
 
   let history = useHistory();
 
@@ -82,6 +81,7 @@ const JoinOrCreate = () => {
       gameInstance: gameNumber,
       messages: [],
       gameBoard: boardArr,
+      lastTile: [0, -1],
     });
     setUserInfo({
       ...userInfo,
@@ -92,8 +92,6 @@ const JoinOrCreate = () => {
 
   const handleJoin = async () => {
     const info = await checkGame(joinInput);
-    // const currentGame = await getGame(joinInput);
-    // // sendBoard(currentGame?.data[0].gameBoard);
     if (info.number === 0) {
       return alert("This game does not exist, check your game ID");
     } else if (info.number === 1) {
@@ -116,7 +114,7 @@ const JoinOrCreate = () => {
   };
 
   useEffect(() => {
-    if (userInfo.userName) {
+    if (userInfo.userName && userInfo.gameInstance !== "0") {
       storeGameId(userInfo);
     } else if (userInfo.userName === "") {
       setUserIn("false");

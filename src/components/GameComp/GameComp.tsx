@@ -1,6 +1,7 @@
 import React from "react";
 import { GameProvider } from "../../context/Game";
 import { Board } from "../Board/Board";
+import Messenger from "../Messenger/Messenger";
 import Reset from "../Reset/Reset";
 import Status from "../Status/Status";
 
@@ -11,13 +12,16 @@ const GameComp = () => {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
+            justifyContent: "space-around",
           }}
         >
-          <Status />
-          <Board />
-          <Reset />
+          <div>
+            <Status />
+            <Board />
+            <Reset />
+          </div>
+          <Messenger />
         </div>
       </GameProvider>
     </div>

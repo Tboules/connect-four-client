@@ -7,6 +7,7 @@ export type gameType = {
     message: string;
   }[];
   gameBoard: string[][];
+  lastTile: number[];
 };
 
 export const register = async (user: any) => {
@@ -90,6 +91,22 @@ export const getGame = async (id: any) => {
       gameInstance: id,
     });
     return findGame;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteGame = async (id: any) => {
+  try {
+    const deletedGame = await axios.delete(
+      "http://localhost:3001/gameApi/deleteGame",
+      {
+        data: {
+          gameInstance: id,
+        },
+      }
+    );
+    return deletedGame;
   } catch (err) {
     console.error(err);
   }

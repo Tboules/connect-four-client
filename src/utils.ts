@@ -115,12 +115,9 @@ const topLeft = ([x, y]: Tile) => [x - 1, y - 1];
 const bottomRight = ([x, y]: Tile) => [x + 1, y + 1];
 
 export function winCheck(board: string[][], tile: Tile) {
-  if (tile === [0, -1]) {
-    return;
-  }
   if (
-    board[tile[0]][tile[1]] === "white" &&
-    board[tile[0]][tile[1]] === undefined
+    board[tile[0]][tile[1]] !== "red" &&
+    board[tile[0]][tile[1]] !== "yellow"
   ) {
     return false;
   }
