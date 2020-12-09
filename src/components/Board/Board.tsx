@@ -56,6 +56,7 @@ export const Board = () => {
       sendBoard(game?.data[0].gameBoard, game?.data[0].lastTile);
     };
     grabGame();
+    //eslint-disable-next-line
   }, []);
 
   const handleTurn = (column: number) => {

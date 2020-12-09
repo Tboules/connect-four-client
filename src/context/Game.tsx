@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSocketChat } from "../components/Messenger/useSocket";
-import { boardArr, turnCheck, winCheck } from "../utils";
+import { turnCheck, winCheck } from "../utils";
 
 type GameContextValue = {
   // board: string[][];
@@ -29,7 +29,7 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 
   const room = window.localStorage.getItem("gameId");
-  const { socketBoard, sendBoard } = useSocketChat(room);
+  const { socketBoard } = useSocketChat(room);
 
   const { board, tile } = socketBoard.body;
 

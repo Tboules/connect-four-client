@@ -85,6 +85,7 @@ const Messenger = () => {
       setPrevMessages(game?.data[0].messages);
     };
     grabMessages();
+    //eslint-disable-next-line
   }, []);
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {

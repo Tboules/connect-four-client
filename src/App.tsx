@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "./components/Header/Header";
 import Register from "./components/Register/Register";
 import GameComp from "./components/GameComp/GameComp";
