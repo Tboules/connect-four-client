@@ -6,7 +6,7 @@ import { updateGame } from "../../API";
 
 const NEW_CHAT_MESSAGE_EVENT = "chatEvent";
 const BOARD_EVENT = "boardEvent";
-const SOCKET_SERVER_URL = "http://localhost:3001";
+const SOCKET_SERVER_URL = "https://immense-earth-66449.herokuapp.com";
 
 export type boardType = {
   body: {

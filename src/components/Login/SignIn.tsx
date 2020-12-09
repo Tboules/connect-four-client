@@ -52,7 +52,7 @@ const SignIn = () => {
           <div className="userPass">
             <label htmlFor="passWord">Password:</label>
             <input
-              type="text"
+              type="password"
               name="passWord"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setUserInfo({
